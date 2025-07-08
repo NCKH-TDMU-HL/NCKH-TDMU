@@ -52,7 +52,7 @@ export default function ThanhDieuHuong() {
               </summary>
 
               <div className="account-dropdown">
-                <Link to="">Thông tin tài khoản</Link>
+                <Link to="/thong-tin-ca-nhan">Thông tin tài khoản</Link>
                 {username ? (
                   <Link
                     to="/"

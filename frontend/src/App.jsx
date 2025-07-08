@@ -9,6 +9,7 @@ import Level1 from "./components/Level1";
 import LoginRegisterForm from "./components/LoginFrom";
 import TopicTask from "./TopicTask/TopicTask";
 import TopicPage from "./Topic1/TopicPage";
+import Personalinformation  from "./components/Presonalinformation";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/dang-nhap" element={<LoginRegisterForm  />} />
         <Route path="/:lop/:topic" element={<TopicPage />} />
         <Route path="/:classId/:taskId/:topic" element={<TopicTask />} />
+        <Route path="/thong-tin-ca-nhan" element={<Personalinformation  />} />
       </Routes>
     </Router>
   );
