@@ -1,0 +1,117 @@
+/* Toàn bộ màn hình bao phủ */
+.bia {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ảnh nền mờ */
+.anh1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Phần intro chứa tên lửa và nút */
+.intro {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tên lửa */
+#rocket {
+  width: 200px;
+  height: auto;
+  transition: transform 2s ease-in-out;
+  z-index: 2;
+}
+
+/* Hiệu ứng bay */
+.rocket-fly {
+  transform: translateY(-120vh);
+}
+
+/* Nút bấm */
+/* Toàn bộ màn hình bao phủ */
+.bia {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ảnh nền mờ */
+.anh1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Phần intro chứa tên lửa và nút */
+.intro {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tên lửa */
+#rocket {
+  width: 200px;
+  height: auto;
+  transition: transform 2s ease-in-out;
+  z-index: 2;
+}
+
+/* Hiệu ứng bay */
+.rocket-fly {
+  transform: translateY(-120vh);
+}
+
+/* Nút bấm */
+.button-btn {
+  font-size: 30px; /* Giữa 25px và 36px, bạn chỉnh theo ý thích */
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px 24px; /* Giữ padding lớn hơn để nút nhìn cân đối */
+  background: #0073e6;
+  color: white;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.button-btn:hover {
+  background: #005bb5;
+}

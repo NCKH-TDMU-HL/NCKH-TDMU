@@ -1,0 +1,126 @@
+.container {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  overflow-x: hidden;
+  background-image: url('../images/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-attachment: fixed;
+  width: 100%;
+}
+
+
+.lesson-list {
+  max-height: 100vh; /* cho phép cuộn nếu nhiều task */
+  overflow-y: auto;
+  width: 120%;
+  max-width: 850px;
+  padding: 20px;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+
+.lesson-list::-webkit-scrollbar {
+  width: 8px;
+  display: none; /* Chrome, Safari */
+}
+.lesson-list::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 4px;
+}
+.lesson-list::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.back {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 0;
+  color: black;
+}
+
+.lesson-card {
+  width: 700px;
+  background-color: #80a8cf;
+  border-radius: 10px;
+  padding: 20px 40px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.lesson-info h3 {
+  margin: 0 0 10px;
+  margin-top: -5px;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.progress-bar {
+  width: 100px;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background-color: #1dd05d;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  font-size: 14px;
+}
+
+.lesson-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lesson-actions button {
+  color: white;
+  min-width: 120px;
+  height: 40px;
+  padding: 0 6px;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 999px;
+  background-color: transparent;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.lesson-actions button:hover {
+  background-color: blue; 
+  transform: scale(1.05);
+}
+
+.lesson-actions img {
+  margin-top: 10px;
+  width: 70px;
+  height: auto;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}

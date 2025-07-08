@@ -1,0 +1,139 @@
+.o-chu-de {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+  width: 100%;
+}
+
+.o-chu-de h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+/*các thẻ chủ đề*/
+.the-chu-de {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 25px;
+  padding: 20px 0;
+  margin-top: 20px;
+  font-size: 35px;
+  font-weight: bold;
+  color: black;
+  width: 100%;
+}
+
+.the-chu-de::-webkit-scrollbar {
+  display: none;
+}
+
+.the {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #000000;
+  border-radius: 12px;
+  padding: 80px 100px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.3s cubic-bezier(.4, 2, .6, 1),
+    width 0.3s,
+    height 0.3s,
+    font-size 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 1;
+}
+
+.the.center {
+  width: 50px;
+  height: 280px;
+  font-size: 1.5rem;
+  z-index: 5;
+  transform: scale(1.15) translateY(-10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* Hai bên gần giữa */
+.the.left1,
+.the.right1 {
+  width: 0px;
+  height: 250px;
+  font-size: 1.1rem;
+  z-index: 4;
+  transform: scale(0.95) translateY(10px);
+  opacity: 0.6;
+}
+
+/* Hai bên ngoài cùng */
+.the.left2,
+.the.right2 {
+  width: 0px;
+  height: 180px;
+  font-size: 1.1rem;
+  z-index: 3;
+  transform: scale(0.8) translateY(30px);
+  opacity: 0.2;
+}
+
+.the.left1 {
+  margin-right: 20px;
+}
+
+.the.right1 {
+  margin-left: 20px;
+}
+
+.the.left2 {
+  margin-right: -30px;
+}
+
+.the.right2 {
+  margin-left: -30px;
+}
+
+/*mũi tên qua lại*/
+.arrow-btn {
+  position: absolute;
+  top: 60%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: background 0.2s;
+  color: black;
+}
+
+.arrow-btn {
+  z-index: 10;
+}
+
+.arrow-btn.left {
+  margin-left: 30px;
+  left: 0;
+}
+
+.arrow-btn.right {
+  margin-right: 30px;
+  right: 0;
+}
+
+.arrow-btn:hover {
+  background: #b3e5fc;
+}
