@@ -52,10 +52,10 @@ export default function ThanhDieuHuong() {
               </summary>
 
               <div className="account-dropdown">
-                <Link to="">Thông tin tài khoản</Link>
+                <Link to="/Information">Thông tin tài khoản</Link>
                 {username ? (
                   <Link
-                    to="/"
+                    to="#"
                     onClick={() => {
                       localStorage.removeItem("loggedInUser");
                       window.location.reload();
@@ -66,7 +66,7 @@ export default function ThanhDieuHuong() {
                 ) : (
                   <Link to="/dang-nhap">Đăng Nhập</Link>
                 )}
-                <Link to="#">Thay đổi mật khẩu</Link>
+                <Link to="/changepassword">Thay đổi mật khẩu</Link>
               </div>
             </details>
           </li>

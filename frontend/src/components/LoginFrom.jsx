@@ -16,28 +16,61 @@ const LoginRegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const url = isLogin
-      ? "http://localhost:3000/api/login"
-      : "http://localhost:3000/api/register";
+    if (isLogin) {
+      // Đăng nhập
+      const res = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: username, password }),
-    });
+      const data = await res.json();
 
-    const data = await res.json();
-
-    if (res.ok) {
-      if (isLogin) {
+      if (res.ok) {
         localStorage.setItem("loggedInUser", username);
         setUsername(username);
         navigate("/class1");
+        setStatus(data.message);
+      } else {
+        setStatus(data.message || "Đã có lỗi xảy ra.");
       }
-      setStatus(data.message);
     } else {
-      setStatus(data.message || "Đã có lỗi xảy ra.");
+      // Đăng ký - gửi đầy đủ thông tin với các trường trống
+      const userData = {
+        username,
+        password,
+        email: "",
+        phone: "",
+        dob: "",
+        avatar: ""
+      };
+
+      const res = await fetch("http://localhost:3000/api/register", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setStatus(data.message);
+        // Tự động chuyển sang form đăng nhập sau khi đăng ký thành công
+        setTimeout(() => {
+          setIsLogin(true);
+          setStatus("");
+        }, 2000);
+      } else {
+        setStatus(data.message || "Đã có lỗi xảy ra.");
+      }
     }
+  };
+
+  const handleToggleForm = () => {
+    setIsLogin(!isLogin);
+    setStatus(""); // Clear status khi chuyển form
+    setUsername("");
+    setPassword("");
   };
 
   return (
@@ -63,7 +96,7 @@ const LoginRegisterForm = () => {
 
           <button
             type="button"
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={handleToggleForm}
             className="toggle-button"
           >
             {isLogin
@@ -81,6 +114,7 @@ const LoginRegisterForm = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 maxLength={20}
+                placeholder="Nhập tên đăng nhập"
               />
             </div>
             <div className="form-row">
@@ -92,6 +126,7 @@ const LoginRegisterForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   maxLength={20}
+                  placeholder="Nhập mật khẩu"
                 />
                 <button
                   type="button"
