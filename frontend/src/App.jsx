@@ -9,6 +9,8 @@ import Level1 from "./components/Level1";
 import LoginRegisterForm from "./components/LoginFrom";
 import TopicTask from "./TopicTask/TopicTask";
 import TopicPage from "./Topic1/TopicPage";
+import Information from "./components/Personalinfornation";
+import ChangePassWord from "./components/ChangePassword"
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/dang-nhap" element={<LoginRegisterForm  />} />
         <Route path="/:lop/:topic" element={<TopicPage />} />
         <Route path="/:classId/:taskId/:topic" element={<TopicTask />} />
+        <Route path="/Information" element={<Information/>} />
+        <Route path="/changepassword" element={<ChangePassWord/>} />
       </Routes>
     </Router>
   );

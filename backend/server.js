@@ -109,38 +109,220 @@ const Models = {
 });
 
 // Đăng ký
-app.post("/api/register", async (req, res) => {
-  const { username, password } = req.body;
-  const userExist = await User.findOne({ username });
-  if (userExist) {
-    return res.status(400).json({ message: "Tài khoản đã tồn tại!" });
+app.put("/api/register", async (req, res) => {
+  try {
+    const { username, password, email, phone, dob, avatar } = req.body;
+    
+    // Kiểm tra user đã tồn tại chưa
+    const userExist = await User.findOne({ username });
+    if (userExist) {
+      return res.status(400).json({ message: "Tài khoản đã tồn tại!" });
+    }
+
+    // Tạo user mới với đầy đủ thông tin
+    const newUser = await User.create({
+      username,
+      password,
+      email: email || "",
+      phone: phone || "",
+      dob: dob || "",
+      avatar: avatar || ""
+    });
+
+    res.status(201).json({ 
+      message: "Đăng ký thành công!",
+      user: {
+        username: newUser.username,
+        email: newUser.email,
+        phone: newUser.phone,
+        dob: newUser.dob,
+        avatar: newUser.avatar
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Lỗi server khi đăng ký!", 
+      error: error.message 
+    });
   }
-  await User.create({ username, password });
-  res.json({ message: "Đăng ký thành công!" });
 });
 
-
-// Đăng nhập
+// Đăng nhập 
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
 
-  if (!user) {
-    return res.status(404).json({ message: "Tài khoản không tồn tại!" });
+    if (!user) {
+      return res.status(404).json({ message: "Tài khoản không tồn tại!" });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({ message: "Mật khẩu không đúng!" });
+    }
+
+    res.json({ 
+      message: "Đăng nhập thành công!", 
+      username,
+      user: {
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        dob: user.dob,
+        avatar: user.avatar
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Lỗi server khi đăng nhập!", 
+      error: error.message 
+    });
   }
-
-  if (user.password !== password) {
-    return res.status(401).json({ message: "Mật khẩu không đúng!" });
-  }
-
-  res.json({ message: "Đăng nhập thành công!", username });
 });
 
+// Topic
 app.get("/api/:classId/topics", (req, res) => {
   const { classId } = req.params;
   const topics = TopicByClass[classId];
   if (!topics) return res.status(404).json({ error: "Không tìm thấy lớp học" });
   res.json(topics);
+});
+
+// API lấy thông tin user theo username
+app.get("/api/user/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username }).select('-password'); // Không trả về password
+    
+    if (!user) {
+      return res.status(404).json({ message: "Không tìm thấy người dùng!" });
+    }
+
+    res.json({
+      message: "Lấy thông tin thành công!",
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        dob: user.dob,
+        avatar: user.avatar,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Lỗi server khi lấy thông tin!", 
+      error: error.message 
+    });
+  }
+});
+
+// API cập nhật thông tin user
+app.put("/api/user/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { email, phone, dob, avatar, currentPassword, newPassword } = req.body;
+    
+    // Tìm user hiện tại
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "Không tìm thấy người dùng!" });
+    }
+
+    // Chuẩn bị dữ liệu cập nhật
+    const updateData = {};
+    
+    if (email !== undefined) updateData.email = email;
+    if (phone !== undefined) updateData.phone = phone;
+    if (dob !== undefined) updateData.dob = dob;
+    if (avatar !== undefined) updateData.avatar = avatar;
+
+    // Nếu có thay đổi mật khẩu
+    if (newPassword && currentPassword) {
+      if (user.password !== currentPassword) {
+        return res.status(400).json({ message: "Mật khẩu hiện tại không đúng!" });
+      }
+      updateData.password = newPassword;
+    }
+
+    // Cập nhật user
+    const updatedUser = await User.findOneAndUpdate(
+      { username },
+      { $set: updateData },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    res.json({
+      message: "Cập nhật thông tin thành công!",
+      user: {
+        _id: updatedUser._id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        dob: updatedUser.dob,
+        avatar: updatedUser.avatar,
+        updatedAt: updatedUser.updatedAt
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Lỗi server khi cập nhật!", 
+      error: error.message 
+    });
+  }
+});
+
+// API kiểm tra username có tồn tại không (để validate khi đổi username)
+app.get("/api/check-username/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username });
+    
+    res.json({
+      exists: !!user,
+      message: user ? "Username đã tồn tại" : "Username có thể sử dụng"
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Lỗi server khi kiểm tra username!", 
+      error: error.message 
+    });
+  }
+});
+
+// API đổi mật khẩu riêng
+app.put("/api/user/:username/change-password", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { currentPassword, newPassword } = req.body;
+    
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Thiếu mật khẩu hiện tại hoặc mật khẩu mới!" });
+    }
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "Không tìm thấy người dùng!" });
+    }
+
+    if (user.password !== currentPassword) {
+      return res.status(400).json({ message: "Mật khẩu hiện tại không đúng!" });
+    }
+
+    await User.findOneAndUpdate(
+      { username },
+      { $set: { password: newPassword } }
+    );
+
+    res.json({ message: "Đổi mật khẩu thành công!" });
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Lỗi server khi đổi mật khẩu!", 
+      error: error.message 
+    });
+  }
 });
 
 app.listen(3000, () => {
