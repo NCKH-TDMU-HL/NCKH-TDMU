@@ -12,6 +12,7 @@ const PersonalInformation = () => {
   });
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   const navigate = useNavigate();
 
@@ -70,12 +71,18 @@ const PersonalInformation = () => {
       if (response.ok) {
         setStatus("Cập nhật thông tin thành công!");
         setUserInfo(data.user);
+        setIsEditing(false);
       } else {
         setStatus(data.message || "Cập nhật thất bại");
       }
     } catch (error) {
       setStatus("Lỗi kết nối server");
     }
+  };
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+    setStatus("");
   };
 
   const handleInputChange = (e) => {
@@ -104,42 +111,52 @@ const PersonalInformation = () => {
   return (
     <div className="body">
       <div className="Back" onClick={() => window.history.back()}>
-        <span >Trở Về</span>
+        <span>Trở Về</span>
       </div>
       <div className="personal-info-container">
         <h1>Thông Tin Cá Nhân</h1>
 
-        <div className="info-section">
-          <h2>Ảnh Đại Diện</h2>
-          <input
-            id="avatarInput"
-            type="file"
-            accept="image/*"
-            onChange={handleAvatarChange}
-            style={{ display: "none" }}
-          />
-
-          {userInfo.avatar ? (
-            <img
-              src={userInfo.avatar}
-              alt="Avatar"
-              className="avatar-preview"
-              onClick={() => document.getElementById("avatarInput").click()}
-              title="Nhấn để đổi ảnh"
+        <div className="main-content">
+          <div className="avatar-section">
+            <h2>Ảnh Đại Diện</h2>
+            <input
+              id="avatarInput"
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              style={{ display: "none" }}
             />
-          ) : (
-            <div
-              className="avatar-upload"
-              onClick={() => document.getElementById("avatarInput").click()}
-              title="Nhấn để thêm ảnh đại diện"
-            >
-              +
-            </div>
-          )}
-        </div>
 
-        <div className="personal-info-content">
-          <div className="info-section">
+            {userInfo.avatar ? (
+              <img
+                src={userInfo.avatar}
+                alt="Avatar"
+                className="avatar-preview"
+                onClick={() => document.getElementById("avatarInput").click()}
+                title="Nhấn để đổi ảnh"
+              />
+            ) : (
+              <div
+                className="avatar-upload"
+                onClick={() => document.getElementById("avatarInput").click()}
+                title="Nhấn để thêm ảnh đại diện"
+              >
+                +
+              </div>
+            )}
+          </div>
+
+          <div className="user-info-section">
+            <div className="section-header">
+              <h2>Thông Tin Cá Nhân</h2>
+              <button 
+                type="button" 
+                className="edit-btn"
+                onClick={handleEditToggle}
+              >
+                {isEditing ? "Hủy" : "Chỉnh sửa"}
+              </button>
+            </div>
             <form onSubmit={handleUpdateInfo}>
               <div className="form-group">
                 <label>Tên đăng nhập:</label>
@@ -147,7 +164,7 @@ const PersonalInformation = () => {
                   type="text"
                   value={userInfo.username}
                   disabled
-                  className="disabled-input"
+                  className="modern-input disabled-input"
                 />
               </div>
 
@@ -159,6 +176,8 @@ const PersonalInformation = () => {
                   value={userInfo.email}
                   onChange={handleInputChange}
                   placeholder="Nhập email của bạn"
+                  disabled={!isEditing}
+                  className="modern-input"
                 />
               </div>
 
@@ -170,6 +189,8 @@ const PersonalInformation = () => {
                   value={userInfo.phone}
                   onChange={handleInputChange}
                   placeholder="Nhập số điện thoại"
+                  disabled={!isEditing}
+                  className="modern-input"
                 />
               </div>
 
@@ -180,26 +201,35 @@ const PersonalInformation = () => {
                   name="dob"
                   value={userInfo.dob}
                   onChange={handleInputChange}
+                  disabled={!isEditing}
+                  className="modern-input"
                 />
               </div>
 
-              <div className="form-actions">
-                <button type="submit" className="save-btn">
-                  Lưu Thay Đổi
-                </button>
-              </div>
+              {isEditing && (
+                <div className="form-actions">
+                  <button type="submit" className="save-btn">
+                    Lưu Thay Đổi
+                  </button>
+                </div>
+              )}
             </form>
-          </div>
 
-          {status && (
-            <div
-              className={`status-message ${
-                status.includes("thành công") ? "success" : "error"
-              }`}
-            >
-              {status}
-            </div>
-          )}
+            {status && (
+              <div
+                className={`status-message ${
+                  status.includes("thành công") ? "success" : "error"
+                }`}
+              >
+                {status}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="learning-progress-section" style={{ display: "none" }}>
+          <h2>Tiến Độ Học Tập</h2>
+          <p>Phần này sẽ được cập nhật sau...</p>
         </div>
       </div>
     </div>

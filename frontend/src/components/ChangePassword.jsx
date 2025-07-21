@@ -85,13 +85,15 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="body">
-      <div className="Back" onClick={() => window.history.back()}>
+    <div className="body-change-password">
+      <button className="Back" onClick={() => window.history.back()}>
         <span>Trở Về</span>
-      </div>
+      </button>
+      
       <div className="change-password-container">
         <h1>Đổi Mật Khẩu</h1>
-        <form onSubmit={handleChangePassword}>
+        
+        <form className="change-password-form" onSubmit={handleChangePassword}>
           <div className="form-group">
             <label>Mật khẩu hiện tại:</label>
             <div className="password-input">
@@ -107,6 +109,7 @@ const ChangePassword = () => {
                 type="button"
                 onClick={() => togglePasswordVisibility("current")}
                 className="toggle-password"
+                aria-label="Toggle password visibility"
               >
                 {showPasswords.current ? "🙈" : "👁️"}
               </button>
@@ -123,12 +126,13 @@ const ChangePassword = () => {
                 onChange={handlePasswordChange}
                 required
                 minLength={6}
-                placeholder="Nhập mật khẩu mới"
+                placeholder="Nhập mật khẩu mới (ít nhất 6 ký tự)"
               />
               <button
                 type="button"
                 onClick={() => togglePasswordVisibility("new")}
                 className="toggle-password"
+                aria-label="Toggle password visibility"
               >
                 {showPasswords.new ? "🙈" : "👁️"}
               </button>
@@ -151,6 +155,7 @@ const ChangePassword = () => {
                 type="button"
                 onClick={() => togglePasswordVisibility("confirm")}
                 className="toggle-password"
+                aria-label="Toggle password visibility"
               >
                 {showPasswords.confirm ? "🙈" : "👁️"}
               </button>

@@ -1,11 +1,17 @@
 import React, { useRef } from "react";
 import "./Allclass.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
 function Allclass() {
   const { classId } = useParams();
   const chonlopRef = useRef(null); 
+  const navigate = useNavigate();
+  
+  const handleClick = (lop) => {
+    localStorage.setItem('lopDaChon', lop);
+    navigate('/dang-nhap');
+  };
 
   return (
     <div className="bia">
@@ -16,11 +22,12 @@ function Allclass() {
       />
       <div className="chonlop show" ref={chonlopRef}>
         <Link to="#" style={{ fontSize: "50px" }}>CHỌN LỚP ĐANG HỌC</Link>
-        <Link to="/class1"><button>Lớp 1</button></Link>
-        <Link to="/class2"><button>Lớp 2</button></Link>
-        <Link t0="/class3"><button>Lớp 3</button></Link>
-        <Link to="/class4"><button>Lớp 4</button></Link>
-        <Link to="/class5"><button>Lớp 5</button></Link>
+        
+        <button onClick={() => handleClick('lop1')}>Lớp 1</button>
+        <button onClick={() => handleClick('lop2')}>Lớp 2</button>
+        <button onClick={() => handleClick('lop3')}>Lớp 3</button>
+        <button onClick={() => handleClick('lop4')}>Lớp 4</button>
+        <button onClick={() => handleClick('lop5')}>Lớp 5</button>
       </div>
     </div>
   );
