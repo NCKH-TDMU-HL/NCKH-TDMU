@@ -1,4 +1,3 @@
-// src/LoginRegisterForm.jsx
 import React, { useState, useEffect } from "react";
 import "./LoginFrom.css";
 import { useNavigate, Link } from "react-router-dom";
@@ -33,7 +32,7 @@ const LoginRegisterForm = () => {
         status.includes("Chào mừng") ||
         status.includes("Đã thoát chế độ khách"))
     ) {
-      const timer = setTimeout(() => setStatus(""), 3000);
+      const timer = setTimeout(() => setStatus(""), 800);
       return () => clearTimeout(timer);
     }
   }, [status]);
@@ -61,7 +60,7 @@ const LoginRegisterForm = () => {
         setStatus(data.message);
         setTimeout(() => {
           navigateToClass(lopDaChon);
-        }, 2500);
+        }, 1200);
       } else {
         setStatus(data.message || "Đã có lỗi xảy ra.");
       }
@@ -88,7 +87,7 @@ const LoginRegisterForm = () => {
         setTimeout(() => {
           setIsLogin(true);
           setStatus("");
-        }, 2500);
+        }, 1200);
       } else {
         setStatus(data.message || "Đã có lỗi xảy ra.");
       }
@@ -129,7 +128,7 @@ const LoginRegisterForm = () => {
     setStatus(`Chào mừng ${guestName}! Đang chuyển trang...`);
     setTimeout(() => {
       navigateToClass(lopDaChon);
-    }, 2500);
+    }, 1000);
   };
 
   const handleExitGuestMode = () => {
@@ -147,6 +146,19 @@ const LoginRegisterForm = () => {
     }, 1000);
   };
 
+    const handleExit = () => {
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("isGuest");
+    setCurrentUser("");
+    setIsGuest(false);
+    setUsername("");
+    setPassword("");
+    setStatus("Đã thoát chế độ khách. Đang chuyển về trang chọn lớp...");
+    setTimeout(() => {
+      navigate("/dang-nhap");
+    }, 800);
+  };
+
   const handleToggleForm = () => {
     setIsLogin(!isLogin);
     setStatus("");
@@ -158,13 +170,26 @@ const LoginRegisterForm = () => {
     return (
       <div className="trang-dang-nhap">
         <ThanhDieuHuong />
-        <div className="login-form guest-mode">
+        <div className="login-form guest-mode" >
           <div className="guest-notification">
-            <h2>🎭 Chế độ Khách</h2>
-            <p>
-              Bạn đang sử dụng tài khoản: <strong>{currentUser}</strong>
+            <h2
+              style={{
+                color: "#8e44ad",
+                fontSize: "24px",
+                marginBottom: "10px",
+              }}
+            >
+              🎭 Chế độ Khách
+            </h2>
+
+            <p style={{ color: "#333", fontSize: "16px" }}>
+              Bạn đang sử dụng tài khoản:{" "}
+              <strong style={{ color: "#2980b9" }}>{currentUser}</strong>
             </p>
-            <p>Đăng ký tài khoản thật để lưu tiến trình học tập của bạn!</p>
+
+            <p style={{ color: "#555", fontStyle: "italic", fontSize: "14px" }}>
+              Đăng ký tài khoản thật để lưu tiến trình học tập của bạn!
+            </p>
 
             <div className="guest-actions">
               <button
@@ -174,7 +199,7 @@ const LoginRegisterForm = () => {
                   backgroundColor: "#dc3545",
                   color: "white",
                   border: "none",
-                  padding: "12px 24px",
+                  padding: "12px 50px",
                   borderRadius: "5px",
                   cursor: "pointer",
                   fontSize: "16px",
@@ -183,6 +208,20 @@ const LoginRegisterForm = () => {
               >
                 Thoát và chọn lại lớp
               </button>
+
+              <button
+                onClick={handleExit}
+                className="exit-guest-btn"
+                style={{
+                  backgroundColor: "#f39c12",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 40px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+                >Thoát và giữ lớp hiện tại</button>
 
               <button
                 onClick={() => {
@@ -194,7 +233,7 @@ const LoginRegisterForm = () => {
                   backgroundColor: "#28a745",
                   color: "white",
                   border: "none",
-                  padding: "12px 24px",
+                  padding: "12px 30px",
                   borderRadius: "5px",
                   cursor: "pointer",
                   fontSize: "16px",
@@ -297,7 +336,7 @@ const LoginRegisterForm = () => {
                     : "error"
                 }
               >
-                {status} {/* ← THÊM DÒNG NÀY */}
+                {status}
               </p>
             )}
             <div className="button-row">
@@ -308,9 +347,9 @@ const LoginRegisterForm = () => {
                   onClick={handleGuestLogin}
                   className="guest-login-btn"
                   style={{
-                    backgroundColor: "#6c757d",
-                    color: "white",
-                    border: "none",
+                    backgroundColor: "#9fa0a0ff",
+                    color: "black",
+                    border: "3px solid #2e7d32",
                     padding: "10px 20px",
                     borderRadius: "5px",
                     cursor: "pointer",

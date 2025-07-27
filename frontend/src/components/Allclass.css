@@ -1,46 +1,163 @@
-.bia {
-    position: relative;
+.BackgroundAllclass {
+    width: 100%;
     height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chonlop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 20px;
+    transition: all 0.3s ease;
+}
+
+.chonlop.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.lopdanghoc {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.lopdanghoc a {
+    font-size: 48px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.lopdanghoc a:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.lop {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.lop button {
+    padding: 40px 15px;
+    font-size: 24px;
+    font-weight: 600;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
     overflow: hidden;
 }
 
-.anh1 {
+.lop button::before {
+    content: '';
     position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.lop button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 15px 45px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.lop button:hover::before {
+    left: 100%;
+}
+
+.lop button:active {
+    transform: translateY(-2px);
+    transition: all 0.1s ease;
+}
+
+.loading-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.3;
-    z-index: -1;
-    pointer-events: none;
-}
-.chonlop {
-    position: relative;
-    z-index: 1;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap:40px;
-    padding-top: 100px;
+    justify-content: center;
+    z-index: 1000;
 }
 
-.chonlop button {
-    padding: 15px 20px;
-    font-size: 25px;
-    border: none;
-    border-radius: 8px;
-    background-color: #ff69b4;
+.loading-content {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    padding: 35px 45px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s ease-in-out infinite alternate;
 }
 
-.chonlop button:hover {
-    background-color: rgb(23, 78, 243);
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1.02);
+        opacity: 1;
+    }
 }
 
-.chonlop button a {
-    color: white;
-    text-decoration: none;
+@media (max-width: 1400px) {
+    .lopdanghoc a {
+        font-size: 36px;
+        padding: 12px 24px;
+    }
+    
+    .lop {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
+    }
+    
+    .lop button {
+        padding: 35px 20px;
+        font-size: 22px;
+    }
 }

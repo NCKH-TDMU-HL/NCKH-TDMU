@@ -42,14 +42,6 @@
   background-color: transparent;
 }
 
-.back {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  margin-left: 0;
-  color: black;
-}
-
 .lesson-card {
   width: 700px;
   background-color: #80a8cf;
@@ -123,4 +115,20 @@
   border: none;
   background: transparent;
   box-shadow: none;
+}
+
+.lesson-card.locked {
+  opacity: 0.5;
+  position: relative;
+  pointer-events: none;
+}
+
+.lock-overlay {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: #d9534f;
+  z-index: 5;
 }

@@ -1,9 +1,9 @@
 import Study from "../components/Hoc-Tap";
 
-export default function StudyPage({ username, setUsername }) { 
+export default function StudyPage({}) { 
   return (
     <div>
-      <Study username={username} setUsername={setUsername} />
+      <Study/>
     </div>
   );
 }
