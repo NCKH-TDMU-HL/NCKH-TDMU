@@ -24,6 +24,7 @@ export default function LoTrinh({ inputUsername, setInputUsername }) {
     top: levels[0].top,
     left: levels[0].left,
   });
+  const isGuest = localStorage.getItem("isGuest") === "true";
 
   useEffect(() => {
     const storedResults = levels.map((level) => {
@@ -51,13 +52,11 @@ export default function LoTrinh({ inputUsername, setInputUsername }) {
 
     if (!unlocked) return;
 
-    // Lấy tọa độ của đảo sắp tới
     const nextLevel = levels[idx];
 
     setIsJumping(true);
     setDinoPos({ top: nextLevel.top, left: nextLevel.left });
 
-    // Delay trước khi chuyển trang (để xem hiệu ứng di chuyển)
     setTimeout(() => {
       setCurrentLevel(idx);
       setIsJumping(false);
@@ -93,7 +92,6 @@ export default function LoTrinh({ inputUsername, setInputUsername }) {
 
   return (
     <div className="lo-trinh-bg">
-
       <h2 className="lo-trinh-title">Hành trình vượt ải</h2>
 
       <div className="lo-trinh-map">
@@ -103,17 +101,19 @@ export default function LoTrinh({ inputUsername, setInputUsername }) {
           className={`lo-trinh-char ${isJumping ? "jumping" : ""}`}
           style={{
             position: "absolute",
-            top: `calc(${dinoPos.top} - 40px)`, // dịch lên để đứng trên đảo
+            top: `calc(${dinoPos.top} - 40px)`,
             left: dinoPos.left,
             transform: "translate(-50%, -120%) scaleX(-1)",
             transition: "top 0.6s ease, left 0.6s ease",
             zIndex: 10,
-            width: "80px", // hoặc tuỳ chỉnh theo kích thước phù hợp
+            width: "80px",
           }}
         />
 
         {levels.map((level, idx) => {
-          const locked = idx > 0 && getStars(results[idx - 1]) < 3;
+          const hasPreviousStars = idx === 0 || getStars(results[idx - 1]) >= 3;
+          const guestLimited = isGuest && idx > 1;
+          const locked = !hasPreviousStars || guestLimited;
 
           return (
             <div
@@ -127,26 +127,24 @@ export default function LoTrinh({ inputUsername, setInputUsername }) {
                 height: 150,
               }}
             >
-              {locked ? (
-                <div className="island locked">
-                </div>
-              ) : (
-                <div
-                  className="island"
-                  onClick={() => handleLevelClick(idx)}
-                  style={{ cursor: "pointer" }}
-                >
-                </div>
-              )}
+              <div
+                className={`island ${locked ? "locked" : ""}`}
+                onClick={!locked ? () => handleLevelClick(idx) : undefined}
+                style={{ cursor: locked ? "not-allowed" : "pointer" }}
+              >
+                {locked && <div className="lo-trinh-lock">🔒</div>}
+              </div>
 
               <div className="island-label">{level.name}</div>
               <div className="island-stars">{renderStars(stars[idx])}</div>
-              {locked && <div className="lo-trinh-lock">🔒</div>}
             </div>
           );
         })}
       </div>
-      <ThanhDieuHuong inputUsername={inputUsername} setInputUsername={setInputUsername}/>
+      <ThanhDieuHuong
+        inputUsername={inputUsername}
+        setInputUsername={setInputUsername}
+      />
     </div>
   );
 }

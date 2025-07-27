@@ -5,6 +5,7 @@ import "./TopicPage.css";
 export default function TopicPage() {
   const { lop, topic } = useParams(); 
   const [progressData, setProgressData] = useState({});
+  const isGuest = localStorage.getItem("isGuest") === "true";
 
   useEffect(() => {
     const newProgress = {};
@@ -26,6 +27,7 @@ export default function TopicPage() {
       total: 7, 
       owlImg: `/images/dino_${Math.floor(i / 2)}_${i % 2}.png`,
       path: `/${lop}/${taskNum}/${topic}`,
+      isLocked: isGuest && taskNum > 2,
     };
   });
 
@@ -33,7 +35,7 @@ export default function TopicPage() {
     <div className="container">
       <div className="lesson-list">
         <h2 className="back">
-          <Link to={`/${lop}/tu-vung`}>← Trở về</Link>
+          <Link to={`/${lop}/tu-vung`} >Trở về</Link>
         </h2>
 
         {lessons.map((lesson) => {
@@ -43,7 +45,16 @@ export default function TopicPage() {
               : 0;
 
           return (
-            <div className="lesson-card" key={lesson.id}>
+            <div
+              key={lesson.id}
+              className={`lesson-card ${lesson.isLocked ? "locked" : ""}`}
+            >
+              {lesson.isLocked && (
+                <div className="lock-overlay">
+                  <span className="lock-icon">🔒</span>
+                </div>
+              )}
+
               <div className="lesson-info">
                 <h3>{lesson.title}</h3>
                 <div className="progress-container">
@@ -61,9 +72,13 @@ export default function TopicPage() {
               </div>
 
               <div className="lesson-actions">
-                <Link to={lesson.path}>
-                  <button>Tiếp tục</button>
-                </Link>
+                {lesson.isLocked ? (
+                  <button disabled>Khóa</button>
+                ) : (
+                  <Link to={lesson.path}>
+                    <button>Tiếp tục</button>
+                  </Link>
+                )}
                 <img src={lesson.owlImg} alt="Dino" />
               </div>
             </div>

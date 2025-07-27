@@ -81,7 +81,7 @@ export default function ThanhDieuHuong() {
 
                 {isGuest && (
                   <>
-                    <Link to="/dang-nhap" style={{ color: "#007bff" }}>
+                    <Link to="/dang-nhap" >
                       Đăng ký tài khoản thật
                     </Link>
                     <span
